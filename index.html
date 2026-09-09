@@ -25,7 +25,7 @@
         html, body {
             width: 100%;
             height: 100%;
-            background-color: #1a1a1a;
+            background-color: #fcf8f7; /* Cambiado a crema para eliminar marcos negros */
             font-family: 'Cinzel', serif;
             display: flex;
             justify-content: center;
@@ -33,15 +33,15 @@
             overflow: hidden;
         }
 
-        /* MARCO DE CELULAR */
+        /* MARCO DE CELULAR ADAPTABLE */
         .mobile-screen {
             width: 100%;
             max-width: 430px;
             height: 100vh;
-            max-height: 932px;
+            height: 100dvh; /* Altura dinámica real del navegador móvil */
             position: relative;
             background-color: #fcf8f7;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
             overflow: hidden;
         }
 
@@ -56,12 +56,12 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             scroll-behavior: smooth;
-            opacity: 0; /* Oculto inicialmente para no parpadear antes de abrir */
+            opacity: 0;
             transition: opacity 0.8s ease;
         }
 
         .invitation-wrapper.open-portada {
-            opacity: 1; /* Se hace visible solo al abrir el sobre */
+            opacity: 1;
         }
 
         .invitation-wrapper::-webkit-scrollbar {
@@ -89,11 +89,16 @@
         /* PORTADA */
         .portada-section {
             min-height: 100vh;
+            min-height: 100dvh;
+            width: 100%;
         }
 
         .portada-section img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta la imagen completa al contenedor */
             opacity: 0.9;
-            transform: translateY(15px);
+            transform: translateY(0);
             transition: transform 1.8s ease-out, opacity 1.8s ease-out;
         }
 
@@ -202,7 +207,7 @@
             filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
         }
 
-        /* ESTILOS DEL CARRUSEL DE FOTOS (AL RAS) */
+        /* ESTILOS DEL CARRUSEL DE FOTOS */
         .slider-container {
             position: relative;
             width: 100%;
@@ -361,20 +366,21 @@
             font-weight: 500;
         }
 
-        /* SOBRE DE INVITACIÓN */
+        /* SOBRE DE INVITACIÓN DE ALTURA COMPLETA */
         .envelope-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            height: 100dvh;
             cursor: pointer;
             perspective: 1200px;
             z-index: 10;
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: #fcf8f7; /* Mantiene un fondo solido mientras carga */
+            background-color: #fcf8f7;
         }
 
         .flap {
@@ -383,7 +389,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('sobre.jpg');
+            background-image: url('sobre.jpg'); /* O sobre.gif */
             background-size: cover;
             background-position: center;
             backface-visibility: hidden;
@@ -454,16 +460,16 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
-            transition: opacity 1.2s ease 1s, visibility 1.2s ease 1s; /* La transicion solo se aplica al abrirse */
+            transition: opacity 1.2s ease 1s, visibility 1.2s ease 1s;
         }
 
-        /* BOTÓN DE MÚSICA */
+        /* BOTÓN DE MÚSICA REPOSICIONADO PARA NO CORTARSE */
         .music-btn {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            width: 40px;
-            height: 40px;
+            top: 35px; /* Bajado a 35px para no quedar oculto por la cámara/notch */
+            right: 20px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             background: linear-gradient(135deg, #e8b4b0, #c88e89);
             border: 1px solid rgba(255, 255, 255, 0.8);
@@ -570,7 +576,7 @@
 
         <!-- 6. BOTÓN DE UBICACIÓN -->
         <div class="location-button-section reveal-section">
-            <a href="https://www.google.com/maps/place/Terravento+Sal%C3%B3n/@20.6182703,-103.2561141,17z/data=!3m1!4b1!4m6!3m5!1s0x8428b5007f0ef0eb:0xf07754580b15640f!8m2!3d20.6182703!4d-103.2535392!16s%2Fg%2F11ygyshfpb!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" class="btn-location">
+            <a href="https://www.google.com/maps?q=Terravento+Sal%C3%B3n,+Av+Tonal%C3%A1+349,+Francisco+Villa,+45402+Tonal%C3%A1,+Jal.&ftid=0x8428b5007f0ef0eb:0xf07754580b15640f&entry=gps&shh=CAE&lucs=,94297699,100795625,94231188,94280568,47071704,94218641,94282134,94286869,100822504&g_ep=CAISEjI2LjMzLjEuOTYxODkxNDMyMBgAIIgnKlMsOTQyOTc2OTksMTAwNzk1NjI1LDk0MjMxMTg4LDk0MjgwNTY4LDQ3MDcxNzA0LDk0MjE4NjQxLDk0MjgyMTM0LDk0Mjg2ODY5LDEwMDgyMjUwNEICTVg%3D&skid=79092cd2-6895-48c8-a193-6b2dff62a103&g_st=ic" target="_blank" rel="noopener noreferrer" class="btn-location">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
@@ -583,7 +589,7 @@
             <img src="galeria.jpg" alt="Galería de Fotos">
         </div>
 
-        <!-- 8. CARRUSEL DE FOTOS (AL RAS) -->
+        <!-- 8. CARRUSEL DE FOTOS -->
         <div class="gallery-reveal">
             <div class="slider-container">
                 <img src="https://i.imgur.com/haX2BKD.jpeg" class="active">
