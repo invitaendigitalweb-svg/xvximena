@@ -56,6 +56,12 @@
             scrollbar-width: none;
             -ms-overflow-style: none;
             scroll-behavior: smooth;
+            opacity: 0; /* Oculto inicialmente para no parpadear antes de abrir */
+            transition: opacity 0.8s ease;
+        }
+
+        .invitation-wrapper.open-portada {
+            opacity: 1; /* Se hace visible solo al abrir el sobre */
         }
 
         .invitation-wrapper::-webkit-scrollbar {
@@ -368,7 +374,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.5s ease 1s, visibility 1.5s ease 1s;
+            background-color: #fcf8f7; /* Mantiene un fondo solido mientras carga */
         }
 
         .flap {
@@ -448,6 +454,7 @@
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
+            transition: opacity 1.2s ease 1s, visibility 1.2s ease 1s; /* La transicion solo se aplica al abrirse */
         }
 
         /* BOTÓN DE MÚSICA */
@@ -563,7 +570,7 @@
 
         <!-- 6. BOTÓN DE UBICACIÓN -->
         <div class="location-button-section reveal-section">
-            <a href="https://www.google.com/maps/place/Terravento+Sal%C3%B3n/@20.6183477,-103.2535458,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhBWQ3O54z7lWP3O0fZFv7mw!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWljQzMuMjjumZNm-p1QboetSeBNOIx4r1Do-axX-kz_9EInDUJ3mXbbV_ZHk9r9uyPXjeiX46Ctn23ZWIShWk1eu9aAoV3mDA0-IGURuijsG4luer2CIE-5qARx2XAoY6cuc6wMRfnZTNF2%3Dw203-h114-k-no!7i1600!8i900!4m7!3m6!1s0x8428b5007f0ef0eb:0xf07754580b15640f!8m2!3d20.6182703!4d-103.2535392!10e5!16s%2Fg%2F11ygyshfpb!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="btn-location">
+            <a href="https://www.google.com/maps/place/Terravento+Sal%C3%B3n/@20.6182703,-103.2561141,17z/data=!3m1!4b1!4m6!3m5!1s0x8428b5007f0ef0eb:0xf07754580b15640f!8m2!3d20.6182703!4d-103.2535392!16s%2Fg%2F11ygyshfpb!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" class="btn-location">
                 <svg viewBox="0 0 24 24">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                 </svg>
