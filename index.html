@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mi Invitación</title>
+
+    <!-- METATAGS PARA MINIATURA DE WHATSAPP -->
+    <meta property="og:title" content="Mi Invitación">
+    <meta property="og:description" content="¡Estás invitado a mis XV! Haz click para ver los detalles.">
+    <meta property="og:image" content="miniatura.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            font-family: 'Cinzel', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* MARCO DE CELULAR */
+        .mobile-screen {
+            width: 100%;
+            max-width: 430px;
+            height: 100vh;
+            max-height: 932px;
+            position: relative;
+            background-color: #fcf8f7;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* SCROLL INTERIOR SIN BARRA VISIBLE */
+        .invitation-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            background-color: #fcf8f7;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+        }
+
+        .invitation-wrapper::-webkit-scrollbar {
+            display: none;
+            width: 0;
+            height: 0;
+        }
+
+        /* ESTILOS DE IMÁGENES */
+        .image-section {
+            width: 100%;
+            background-color: #fcf8f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .image-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* PORTADA */
+        .portada-section {
+            min-height: 100vh;
+        }
+
+        .portada-section img {
+            opacity: 0.9;
+            transform: translateY(15px);
+            transition: transform 1.8s ease-out, opacity 1.8s ease-out;
+        }
+
+        .open-portada .portada-section img {
+            opacity: 1;
+            animation: floatPortada 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatPortada {
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-6px) scale(1.005); }
+        }
+
+        /* ESTILOS DEL CONTADOR */
+        .contador-section {
+            width: 100%;
+            padding: 30px 15px 40px 15px;
+            text-align: center;
+            background-color: #fcf8f7;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .tiempo {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .unidad {
+            min-width: 70px;
+        }
+
+        .numero {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 50px;
+            line-height: 1;
+            color: #B78383;
+            font-weight: 500;
+        }
+
+        .texto {
+            margin-top: 7px;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #C59A9A;
+        }
+
+        .separador {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 40px;
+            color: #D2A7A7;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* SECCIÓN BOTÓN DE UBICACIÓN CON BRILLO DIFUMINADO #E5B0AF */
+        .location-button-section {
+            width: 100%;
+            padding: 15px 20px 45px 20px;
+            background-color: #fcf8f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-location {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #f0c2c1 0%, #E5B0AF 50%, #d89e9d 100%);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(229, 176, 175, 0.6), 0 0 25px rgba(229, 176, 175, 0.4);
+            animation: glowGlow 2.5s infinite alternate;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes glowGlow {
+            0% {
+                box-shadow: 0 4px 12px rgba(229, 176, 175, 0.5), 0 0 10px rgba(229, 176, 175, 0.3);
+            }
+            100% {
+                box-shadow: 0 6px 20px rgba(229, 176, 175, 0.9), 0 0 28px rgba(229, 176, 175, 0.6);
+            }
+        }
+
+        .btn-location:active {
+            transform: scale(0.96);
+        }
+
+        .btn-location svg {
+            width: 16px;
+            height: 16px;
+            fill: #ffffff;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15));
+        }
+
+        /* ESTILOS DEL CARRUSEL DE FOTOS (AL RAS) */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            border-radius: 0;
+        }
+
+        .slider-container img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            border-radius: 0;
+        }
+
+        .slider-container img.active {
+            opacity: 1;
+        }
+
+        /* ANIMACIÓN DE ENTRADA GENERAL AL HACER SCROLL */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(40px) scale(0.97);
+            transition: opacity 1.4s ease-out, transform 1.4s ease-out;
+        }
+
+        .reveal-section.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ANIMACIÓN ESPECIAL DE ENTRADA PARA LA GALERÍA Y CARRUSEL */
+        .gallery-reveal {
+            opacity: 0;
+            transform: translateY(60px) scale(0.88);
+            transition: opacity 1.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-reveal.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* ESTILOS DE FORMULARIO DE ASISTENCIA INTEGRADO */
+        .rsvp-container-wrapper {
+            width: 100%;
+            background-color: #fcf8f7;
+            padding: 10px 25px 60px 25px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .rsvp-inner {
+            width: 100%;
+            max-width: 350px;
+            margin: auto;
+            color: #555555;
+        }
+
+        .rsvp-inner label.titulo {
+            display: block;
+            margin-top: 20px;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #B78383;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .rsvp-inner input[type="text"], .rsvp-inner textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #E5B0AF;
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            background-color: #ffffff;
+            color: #444;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .rsvp-inner input[type="text"]:focus, .rsvp-inner textarea:focus {
+            border-color: #B78383;
+        }
+
+        .rsvp-inner .opciones {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .rsvp-inner .opcion-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .rsvp-inner .opcion-item input {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            accent-color: #B78383;
+        }
+
+        .rsvp-inner button {
+            background: linear-gradient(135deg, #f0c2c1 0%, #E5B0AF 50%, #d89e9d 100%);
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            font-size: 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            box-shadow: 0 4px 15px rgba(229, 176, 175, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .rsvp-inner button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(229, 176, 175, 0.6);
+        }
+
+        .rsvp-inner button.cargando {
+            background: #d89e9d !important;
+            cursor: not-allowed;
+        }
+
+        .rsvp-inner #exito {
+            display: none;
+            text-align: center;
+            padding: 30px 5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .rsvp-inner #exito h3 {
+            color: #B78383;
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* SOBRE DE INVITACIÓN */
+        .envelope-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            perspective: 1200px;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1.5s ease 1s, visibility 1.5s ease 1s;
+        }
+
+        .flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('sobre.jpg');
+            background-size: cover;
+            background-position: center;
+            backface-visibility: hidden;
+            transition: transform 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .envelope-flap-top {
+            clip-path: polygon(0 0, 100% 0, 50% 50%);
+            transform-origin: top;
+            z-index: 5;
+        }
+
+        .envelope-flap-bottom {
+            clip-path: polygon(0 100%, 100% 100%, 50% 50%);
+            transform-origin: bottom;
+            z-index: 3;
+        }
+
+        .envelope-flap-left {
+            clip-path: polygon(0 0, 0 100%, 50% 50%);
+            transform-origin: left;
+            z-index: 2;
+        }
+
+        .envelope-flap-right {
+            clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+            transform-origin: right;
+            z-index: 2;
+        }
+
+        /* BOTÓN EN EL SOBRE */
+        .center-group {
+            position: absolute;
+            top: 61.5%;
+            left: 66%;
+            transform: translate(-50%, -50%);
+            z-index: 6;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .view-text {
+            font-size: 11px;
+            color: #ffffff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            background: rgba(186, 122, 116, 0.55);
+            padding: 8px 18px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(4px);
+            white-space: nowrap;
+        }
+
+        .open .envelope-flap-top { transform: rotateX(180deg); }
+        .open .envelope-flap-bottom { transform: rotateX(-180deg); }
+        .open .envelope-flap-left { transform: rotateY(-180deg); }
+        .open .envelope-flap-right { transform: rotateY(180deg); }
+
+        .open .center-group {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.85);
+            visibility: hidden;
+        }
+
+        .open.envelope-container {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        /* BOTÓN DE MÚSICA */
+        .music-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e8b4b0, #c88e89);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease 1.2s, transform 0.3s ease;
+        }
+
+        .music-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #ffffff;
+        }
+
+        .music-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .music-btn.playing {
+            animation: pulseMusic 2s infinite alternate;
+        }
+
+        @keyframes pulseMusic {
+            0% { box-shadow: 0 0 0 0 rgba(232, 180, 176, 0.6); }
+            100% { box-shadow: 0 0 0 8px rgba(232, 180, 176, 0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="mobile-screen">
+
+    <!-- AUDIO CON EL NOMBRE 'cancion.mp3' -->
+    <audio id="bg-music" src="cancion.mp3" loop></audio>
+
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic(event)">
+        <span id="musicIcon">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+            </svg>
+        </span>
+    </button>
+
+    <div class="invitation-wrapper" id="invitation">
+
+        <!-- 1. FOTO DE PORTADA -->
+        <div class="image-section portada-section">
+            <img src="portada.jpg" alt="Portada">
+        </div>
+
+        <!-- 2. FOTO DE PADRES -->
+        <div class="image-section reveal-section">
+            <img src="padres.jpg" alt="Padres">
+        </div>
+
+        <!-- 3. FOTO DE FECHA -->
+        <div class="image-section reveal-section">
+            <img src="fecha.jpg" alt="Fecha">
+        </div>
+
+        <!-- 4. CONTADOR DE TIEMPO -->
+        <div class="contador-section reveal-section">
+            <div class="tiempo">
+                <div class="unidad">
+                    <div class="numero" id="dias">00</div>
+                    <div class="texto">Días</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="horas">00</div>
+                    <div class="texto">Horas</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="minutos">00</div>
+                    <div class="texto">Minutos</div>
+                </div>
+
+                <div class="separador">:</div>
+
+                <div class="unidad">
+                    <div class="numero" id="segundos">00</div>
+                    <div class="texto">Segundos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. FOTO DEL LUGAR -->
+        <div class="image-section reveal-section">
+            <img src="lugar.jpg" alt="Lugar del Evento">
+        </div>
+
+        <!-- 6. BOTÓN DE UBICACIÓN -->
+        <div class="location-button-section reveal-section">
+            <a href="https://www.google.com/maps/place/Terravento+Sal%C3%B3n/@20.6183477,-103.2535458,3a,75y,90t/data=!3m8!1e2!3m6!1sCIABIhBWQ3O54z7lWP3O0fZFv7mw!2e10!3e12!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-cs-s%2FAHRPTWljQzMuMjjumZNm-p1QboetSeBNOIx4r1Do-axX-kz_9EInDUJ3mXbbV_ZHk9r9uyPXjeiX46Ctn23ZWIShWk1eu9aAoV3mDA0-IGURuijsG4luer2CIE-5qARx2XAoY6cuc6wMRfnZTNF2%3Dw203-h114-k-no!7i1600!8i900!4m7!3m6!1s0x8428b5007f0ef0eb:0xf07754580b15640f!8m2!3d20.6182703!4d-103.2535392!10e5!16s%2Fg%2F11ygyshfpb!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="btn-location">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                </svg>
+                Ver ubicación
+            </a>
+        </div>
+
+        <!-- 7. IMAGEN DE GALERÍA DE FOTOS -->
+        <div class="image-section gallery-reveal">
+            <img src="galeria.jpg" alt="Galería de Fotos">
+        </div>
+
+        <!-- 8. CARRUSEL DE FOTOS (AL RAS) -->
+        <div class="gallery-reveal">
+            <div class="slider-container">
+                <img src="https://i.imgur.com/haX2BKD.jpeg" class="active">
+                <img src="https://i.imgur.com/3TUEwNB.jpeg">
+                <img src="https://i.imgur.com/GgpTmMd.jpeg">
+                <img src="https://i.imgur.com/PykT3M2.jpeg">
+                <img src="https://i.imgur.com/0omCNKX.jpeg">
+                <img src="https://i.imgur.com/qzrlNIc.jpeg">
+                <img src="https://i.imgur.com/SROHelz.jpeg">
+            </div>
+        </div>
+
+        <!-- 9. FOTO DE VESTIMENTA -->
+        <div class="image-section reveal-section">
+            <img src="vestimenta.jpg" alt="Vestimenta">
+        </div>
+
+        <!-- 10. FOTO DE REGALO -->
+        <div class="image-section reveal-section">
+            <img src="regalo.jpg" alt="Regalo">
+        </div>
+
+        <!-- 11. FOTO DE NIÑOS -->
+        <div class="image-section reveal-section">
+            <img src="ninos.jpg" alt="No Niños">
+        </div>
+
+        <!-- 12. FOTO DE ASISTENCIA -->
+        <div class="image-section reveal-section">
+            <img src="asistencia.jpg" alt="Asistencia">
+        </div>
+
+        <!-- 13. FORMULARIO DE CONFIRMACIÓN DE ASISTENCIA INTEGRADO -->
+        <div class="rsvp-container-wrapper reveal-section">
+            <div class="rsvp-inner">
+                <div id="formContent">
+                    <form id="rsvpForm">
+                        <label class="titulo">Nombre del invitado</label>
+                        <input type="text" name="nombre" placeholder="Escribe tu nombre completo" required>
+
+                        <label class="titulo">Respuesta</label>
+                        <div class="opciones">
+                            <label class="opcion-item">
+                                <input type="radio" name="asistencia" value="Será un placer asistir" checked> Será un placer asistir
+                            </label>
+                            <label class="opcion-item">
+                                <input type="radio" name="asistencia" value="Lo siento, no podré asistir"> Lo siento, no podré asistir
+                            </label>
+                        </div>
+
+                        <label class="titulo">Mensaje o dedicatoria (Opcional)</label>
+                        <textarea name="mensaje" rows="4" placeholder="Escribe un mensaje aquí..."></textarea>
+
+                        <button type="submit" id="btn">Enviar Confirmación</button>
+                    </form>
+                </div>
+
+                <div id="exito">
+                    <h3>¡Muchas gracias!<br>Tu respuesta ha sido recibida con éxito.</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SOBRE -->
+    <div class="envelope-container" id="envelope" onclick="openEnvelope()">
+        <div class="flap envelope-flap-top"></div>
+        <div class="flap envelope-flap-bottom"></div>
+        <div class="flap envelope-flap-left"></div>
+        <div class="flap envelope-flap-right"></div>
+
+        <div class="center-group">
+            <div class="view-text">
+                Ver invitación
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    let isOpen = false;
+    const music = document.getElementById("bg-music");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicIcon = document.getElementById("musicIcon");
+    const wrapper = document.getElementById("invitation");
+
+    const svgPlay = `<svg viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>`;
+    const svgMute = `<svg viewBox="0 0 24 24"><path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 2.21 0 3.73-1.61 3.96-3.72V12.1l4.73 4.73 1.27-1.27L4.27 3zM14 7h4V3h-6v4.18l2 2V7z"/></svg>`;
+
+    function openEnvelope() {
+        if (!isOpen) {
+            isOpen = true;
+            document.getElementById("envelope").classList.add("open");
+            wrapper.classList.add("open-portada");
+            
+            var playPromise = music.play();
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    musicBtn.classList.add("playing");
+                    musicIcon.innerHTML = svgPlay;
+                }).catch(function(error) {
+                    console.log("Reproducción bloqueada por el navegador:", error);
+                    musicBtn.classList.remove("playing");
+                    musicIcon.innerHTML = svgMute;
+                });
+            }
+
+            musicBtn.classList.add("visible");
+            checkScroll();
+        }
+    }
+
+    function toggleMusic(event) {
+        event.stopPropagation();
+
+        if (music.paused) {
+            music.play().then(() => {
+                musicIcon.innerHTML = svgPlay;
+                musicBtn.classList.add("playing");
+            }).catch(err => {
+                console.log("Error al reproducir audio:", err);
+            });
+        } else {
+            music.pause();
+            musicIcon.innerHTML = svgMute;
+            musicBtn.classList.remove("playing");
+        }
+    }
+
+    function checkScroll() {
+        const reveals = document.querySelectorAll('.reveal-section, .gallery-reveal');
+        const triggerBottom = wrapper.clientHeight * 0.9;
+
+        reveals.forEach(section => {
+            const sectionTop = section.getBoundingClientRect().top;
+            if (sectionTop < triggerBottom) {
+                section.classList.add('visible');
+            }
+        });
+    }
+
+    wrapper.addEventListener('scroll', checkScroll);
+
+    /* LÓGICA DEL CARRUSEL DE IMÁGENES */
+    const images = document.querySelectorAll('.slider-container img');
+    let current = 0;
+
+    setInterval(() => {
+        images[current].classList.remove('active');
+        current = (current + 1) % images.length;
+        images[current].classList.add('active');
+    }, 3000);
+
+    /* LÓGICA DEL CONTADOR DE TIEMPO */
+    const fechaEvento = new Date("October 23, 2026 17:00:00").getTime();
+
+    function actualizarContador() {
+        const ahora = new Date().getTime();
+        const diferencia = fechaEvento - ahora;
+
+        if (diferencia <= 0) {
+            document.getElementById("dias").innerHTML = "00";
+            document.getElementById("horas").innerHTML = "00";
+            document.getElementById("minutos").innerHTML = "00";
+            document.getElementById("segundos").innerHTML = "00";
+            return;
+        }
+
+        const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+        const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+        document.getElementById("dias").innerHTML = String(dias).padStart(2, "0");
+        document.getElementById("horas").innerHTML = String(horas).padStart(2, "0");
+        document.getElementById("minutos").innerHTML = String(minutos).padStart(2, "0");
+        document.getElementById("segundos").innerHTML = String(segundos).padStart(2, "0");
+    }
+
+    actualizarContador();
+    setInterval(actualizarContador, 1000);
+
+    /* ENVÍO DEL FORMULARIO DE ASISTENCIA */
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx7_l9Zoc7boTllyD6tvR1FTOsT7uz_uIkzQ1hx-pQYPSv1UE_AjcNR5FGmQq0EdM6T/exec'
+    const form = document.getElementById('rsvpForm');
+    const btn = document.getElementById('btn');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        
+        btn.disabled = true;
+        btn.innerText = 'Enviando...';
+        btn.classList.add('cargando');
+
+        fetch(scriptURL, { 
+            method: 'POST', 
+            body: new FormData(form),
+            mode: 'no-cors'
+        })
+        .then(() => {
+            document.getElementById('formContent').style.display = 'none';
+            document.getElementById('exito').style.display = 'block';
+        })
+        .catch(error => {
+            console.error('Error!', error.message);
+            alert('Hubo un error al enviar. Revisa tu conexión.');
+            btn.disabled = false;
+            btn.innerText = 'Enviar Confirmación';
+            btn.classList.remove('cargando');
+        });
+    });
+</script>
+
+</body>
+</html>
